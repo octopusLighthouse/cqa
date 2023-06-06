@@ -1,16 +1,5 @@
 version: '3.7'
 services:
-    cqa:
-        build:
-            context: .
-            target: DEV
-        ports: 
-            - "3000:3000"
-        depends_on:
-            - postgres
-        networks:
-            - orange
-
     postgres:
         container_name: orange-postgres
         image: postgres
@@ -27,6 +16,17 @@ services:
             - orange
         volumes: 
             - ./docker/database/docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+
+    cqa:
+        build:
+            context: .
+            target: DEV
+        ports: 
+            - "3000:3000"        
+        networks:
+            - orange
+        depends_on:
+            - postgres
 
 networks:
     orange:
